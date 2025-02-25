@@ -15,7 +15,7 @@ GOAL_STATE = State(np.array([[1, 2, 3],
                              [8, 0, 4],
                              [7, 6, 5]]), None)
 
-MAX_DEPTH = 5
+MAX_DEPTH = 10
 
 def depth_first_search(state : State, tree : Tree, visited : set):
     if state in visited:
@@ -46,4 +46,5 @@ def depth_first_search(state : State, tree : Tree, visited : set):
 visited = set()
 tree = Tree()
 reuslt = depth_first_search(INITIAL_STATE, tree, visited)
-tree.display_tree()
+tree.display_tree(5)
+tree.draw_tree(5)
