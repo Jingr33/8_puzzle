@@ -1,5 +1,4 @@
 import numpy as np
-from icecream import ic
 
 
 MOVES = {
@@ -26,11 +25,8 @@ class State():
 
     def copy(self):
         new_state = State(self.values, self)
-        new_state._path = self._path
+        new_state.set_path([state for state in self._path] + [self])
         return new_state
-
-        # def set_depth(self, depth) -> None:
-        #     self._depth = depth
 
     def get_depth(self) -> int:
         return self._depth
@@ -44,8 +40,8 @@ class State():
     def get_path(self) -> list:
         return self._path
 
-    def add_state_to_path(self, state) -> None:
-        self._path.append(state)
+    def set_path(self, parent_states : list) -> None:
+        self._path.extend(parent_states)
 
     def get_visited(self) -> bool:
         return self._visited

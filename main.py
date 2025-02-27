@@ -1,7 +1,6 @@
 """Sliding number puzzle."""
 
 import numpy as np
-from icecream import ic
 
 from state import State
 from tree import Tree
@@ -22,12 +21,12 @@ def depth_first_search(state : State, tree : Tree, visited : set):
         return None
     
     visited.add(state)
-    state.add_state_to_path(state)
+    # state.add_state_to_path(state)
     tree.add_to_tree(state)
 
     # check goal state
     if state == GOAL_STATE:
-        ic("GOAL")
+        print("Target successfully found!")
         return state
     
     # max depth
@@ -46,5 +45,4 @@ def depth_first_search(state : State, tree : Tree, visited : set):
 visited = set()
 tree = Tree()
 reuslt = depth_first_search(INITIAL_STATE, tree, visited)
-tree.display_tree(5)
-tree.draw_tree(5)
+tree.draw_tree(6, reuslt)
