@@ -1,7 +1,6 @@
 """ Script for operation with Tree class
 """
 
-import numpy as np
 import tkinter as tk
 
 from state import State
@@ -39,11 +38,11 @@ class Tree():
             goal : State
                 goal state object
         """
-        depths = [i for i in range(max_depth)]
+        depths = list(range(max_depth))
         for depth in depths:
             states_count = len(self._tree[depth])
             (x_pos_list, y_pos) = self._get_state_pos(max_depth, depth, states_count)
-            
+
             for j in range(len(self._tree[depth])):
                 self._draw_state(self._canvas, self._tree[depth][j], x_pos_list[j], y_pos, goal)
                 self._draw_connection(self._tree[depth][j], (x_pos_list[j], y_pos), max_depth)
@@ -86,9 +85,9 @@ class Tree():
             max_depth : int
                 nuber of displayed depth layers 
          """
-        if not len(state.get_path()):
+        if not state.get_path():
             return
-        
+
         parent_state = state.get_path()[-1]
         parent_depth = parent_state.get_depth()
 
@@ -103,7 +102,7 @@ class Tree():
             p2 = (x_poses[pos], y_pos)
             self._canvas.create_line(p1[0] + 38, p1[1], p2[0] + 38 , p2[1] + 75)
 
-    def _get_state_pos(self, max_depth : int, depth : int, states_count : int) -> tuple[int]:
+    def _get_state_pos(self, max_depth : int, depth : int, state_cnt : int) -> tuple[int]:
         """ Return top left positons of states of one depth in the tree dictionary.
         
         Args:
@@ -111,13 +110,13 @@ class Tree():
                 nuber of displayed depth layers 
             depth : int
                 depth attributte of the state
-            state_count : int
+            state_cnt : int
                 number of states in entered depth
 
         Return:
             tuple[int]: (x_positions - all postions in row, y_positon)
         """
-        x_positions = [WIN_WIDTH/states_count * pos + WIN_WIDTH/states_count/2 - 35 for pos in range(states_count)]
+        x_positions = [WIN_WIDTH/state_cnt * pos + WIN_WIDTH/state_cnt/2 - 35 for pos in range(state_cnt)]
         y_position = WIN_HEIGHT / max_depth * depth + 10
         return (x_positions, y_position)
 

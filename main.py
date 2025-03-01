@@ -1,7 +1,7 @@
 """Sliding number puzzle."""
 
-import numpy as np
 from typing import Optional
+import numpy as np
 
 from state import State
 from tree import Tree
@@ -33,7 +33,7 @@ def depth_first_search(state : State, tree : Tree, visited : set) -> Optional[St
     """
     if state in visited:
         return None
-    
+
     visited.add(state)
     tree.add_to_tree(state)
 
@@ -41,7 +41,7 @@ def depth_first_search(state : State, tree : Tree, visited : set) -> Optional[St
     if state == GOAL_STATE:
         print("Target successfully found!")
         return state
-    
+
     # max depth
     if state.get_depth() >= MAX_DEPTH:
         return None
@@ -52,10 +52,10 @@ def depth_first_search(state : State, tree : Tree, visited : set) -> Optional[St
             result = depth_first_search(child_state, tree, visited)
             if result:
                 return result
-    
+
     return None
 
-visited = set()
-tree = Tree()
-reuslt = depth_first_search(INITIAL_STATE, tree, visited)
-tree.draw_tree(6, reuslt)
+visited_empty = set()
+tree_empty = Tree()
+reuslt = depth_first_search(INITIAL_STATE, tree_empty, visited_empty)
+tree_empty.draw_tree(6, reuslt)

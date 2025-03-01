@@ -65,25 +65,29 @@ class State():
             State: a new copied state
         """
         new_state = State(self.values, self)
-        new_state._set_path([state for state in self._path] + [self])
+        new_state._set_path(self._path + [self])
         return new_state
 
     def get_depth(self) -> int:
+        """Get depth."""
         return self._depth
 
     def get_state(self) -> np.array:
+        """Get state"""
         return self.values
 
     def _get_state_tuple(self) -> tuple:
         return tuple(self.values.flatten())
 
     def get_path(self) -> list:
+        """Get path"""
         return self._path
 
     def _set_path(self, parent_states : list) -> None:
         self._path.extend(parent_states)
 
     def get_visited(self) -> bool:
+        """Get visited"""
         return self._visited
 
     def _get_empty_pos(self) -> tuple:
