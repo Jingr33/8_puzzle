@@ -1,6 +1,7 @@
 """Sliding number puzzle."""
 
 import numpy as np
+from typing import Optional
 
 from state import State
 from tree import Tree
@@ -16,7 +17,20 @@ GOAL_STATE = State(np.array([[1, 2, 3],
 
 MAX_DEPTH = 10
 
-def depth_first_search(state : State, tree : Tree, visited : set):
+def depth_first_search(state : State, tree : Tree, visited : set) -> Optional[State]:
+    """ Recursive function finds solution to 8 puzzles using depth first search algorithm.
+
+    Args:
+        state : State
+            the currently browsed state
+        tree : Tree
+            object storing the history of browsing through the algorithm
+        visited : set
+            set of all visited states
+
+    Return:
+        Optional[State]: return final state if goal is found, otherwise None 
+    """
     if state in visited:
         return None
     

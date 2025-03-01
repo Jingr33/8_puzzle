@@ -1,6 +1,9 @@
+""" Script for operation with state class
+"""
+
 import numpy as np
 
-
+# possible shifts
 MOVES = {
     "up" : (1, 0),
     "right" : (0, 1),
@@ -10,24 +13,25 @@ MOVES = {
 
 
 class State():
-    def __init__(self, values : np.array, parent_state) -> None:
+    """ Object of one game state. """
+    def __init__(self, values : np.array, parent_state : "State") -> None:
         self.values = np.copy(values)
         self._depth = parent_state._depth + 1 if parent_state else 0
         self._path = []
         self._visited = False
 
-    def __eq__(self, other_state) -> bool:
+    def __eq__(self, other_state : "State") -> bool:
         return np.array_equal(self.values, other_state.values)
 
     def __hash__(self):
         return hash(self.values.tobytes())
 
-    def display(self) -> None:
-        values = self._get_state_tuple()
-        string = f"–––––––––––––\n| {values[0]} | {values[1]} | {values[2]} |\n–––––––––––––\n| {values[3]} | {values[4]} | {values[5]} |\n–––––––––––––\n| {values[6]} | {values[7]} | {values[8]} |\n–––––––––––––\n"
-        return string
-
-    def get_child_states(self) -> list[tuple]:
+    def get_child_states(self) -> list["State"]:
+        """ Find all child (next possible) states of current state.
+        
+        Return:
+            list[State]: list of child states 
+        """
         empty_pos = self._get_empty_pos()
         children = []
         for _, (x_shift, y_shift) in MOVES.items():
@@ -38,12 +42,28 @@ class State():
                 children.append(new_state)
         return children
 
-    def _swap_positions(self, empty_pos : tuple, swap_pos : tuple):
+    def _swap_positions(self, empty_pos : tuple, swap_pos : tuple) -> "State":
+        """ Create copy of current state and swap one value with empty position.
+        
+        Args:
+            empty_pos : tuple
+                index of empty position in state matrix
+            swap_pos : tuple
+                index of neighbor swap position
+
+        Return:
+            State: new child state
+        """
         new_state = self.copy()
         new_state.values[empty_pos], new_state.values[swap_pos] = new_state.values[swap_pos], new_state.values[empty_pos]
         return new_state
 
-    def copy(self):
+    def copy(self) -> "State":
+        """ Create copy of current state, add current state to new state path
+        
+        Return:
+            State: a new copied state
+        """
         new_state = State(self.values, self)
         new_state._set_path([state for state in self._path] + [self])
         return new_state
