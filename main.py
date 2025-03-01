@@ -21,7 +21,6 @@ def depth_first_search(state : State, tree : Tree, visited : set):
         return None
     
     visited.add(state)
-    # state.add_state_to_path(state)
     tree.add_to_tree(state)
 
     # check goal state

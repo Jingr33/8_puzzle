@@ -12,7 +12,6 @@ MOVES = {
 class State():
     def __init__(self, values : np.array, parent_state) -> None:
         self.values = np.copy(values)
-        self._parent = parent_state
         self._depth = parent_state._depth + 1 if parent_state else 0
         self._path = []
         self._visited = False
@@ -23,40 +22,8 @@ class State():
     def __hash__(self):
         return hash(self.values.tobytes())
 
-    def copy(self):
-        new_state = State(self.values, self)
-        new_state.set_path([state for state in self._path] + [self])
-        return new_state
-
-    def get_depth(self) -> int:
-        return self._depth
-
-    def get_state(self) -> np.array:
-        return self.values
-
-    def get_state_tuple(self) -> tuple:
-        return tuple(self.values.flatten())
-
-    def get_path(self) -> list:
-        return self._path
-
-    def set_path(self, parent_states : list) -> None:
-        self._path.extend(parent_states)
-
-    def get_visited(self) -> bool:
-        return self._visited
-
-    def set_visited(self, visited : bool) -> None:
-        self._visited = visited
-
-    def get_parent_state(self):
-        return self._parent
-
-    def _get_empty_pos(self) -> tuple:
-        return tuple(np.argwhere(self.values == 0)[0])
-
     def display(self) -> None:
-        values = self.get_state_tuple()
+        values = self._get_state_tuple()
         string = f"–––––––––––––\n| {values[0]} | {values[1]} | {values[2]} |\n–––––––––––––\n| {values[3]} | {values[4]} | {values[5]} |\n–––––––––––––\n| {values[6]} | {values[7]} | {values[8]} |\n–––––––––––––\n"
         return string
 
@@ -75,3 +42,29 @@ class State():
         new_state = self.copy()
         new_state.values[empty_pos], new_state.values[swap_pos] = new_state.values[swap_pos], new_state.values[empty_pos]
         return new_state
+
+    def copy(self):
+        new_state = State(self.values, self)
+        new_state._set_path([state for state in self._path] + [self])
+        return new_state
+
+    def get_depth(self) -> int:
+        return self._depth
+
+    def get_state(self) -> np.array:
+        return self.values
+
+    def _get_state_tuple(self) -> tuple:
+        return tuple(self.values.flatten())
+
+    def get_path(self) -> list:
+        return self._path
+
+    def _set_path(self, parent_states : list) -> None:
+        self._path.extend(parent_states)
+
+    def get_visited(self) -> bool:
+        return self._visited
+
+    def _get_empty_pos(self) -> tuple:
+        return tuple(np.argwhere(self.values == 0)[0])
