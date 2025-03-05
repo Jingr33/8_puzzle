@@ -2,6 +2,7 @@
 """
 
 import tkinter as tk
+from icecream import ic
 
 from state import State
 
@@ -38,6 +39,7 @@ class Tree():
             goal : State
                 goal state object
         """
+        max_depth = min(max_depth, max(self._tree.keys()) + 1)
         depths = list(range(max_depth))
         for depth in depths:
             states_count = len(self._tree[depth])
@@ -46,6 +48,7 @@ class Tree():
             for j in range(len(self._tree[depth])):
                 self._draw_state(self._canvas, self._tree[depth][j], x_pos_list[j], y_pos, goal)
                 self._draw_connection(self._tree[depth][j], (x_pos_list[j], y_pos), max_depth)
+                self._draw_heuristic(self._tree[depth][j], (x_pos_list[j], y_pos))
 
         self._root.mainloop()
 
@@ -135,3 +138,19 @@ class Tree():
             """
         if state == goal:
             self._canvas.create_rectangle(x - 5, y - 5, x + 82, y + 82, outline="gold", width = 4)
+
+    def _draw_heuristic(self, state : State, position : tuple[int]) -> None:
+        """ Write heuristic values of the state.
+        
+        Args:
+            state : State
+                the state of interest
+            position : tuple[int]
+                (x, y) position of the top left corner of the state
+        """
+        if state.get_heuristic() is None:
+            return
+        
+        x, y = position[0] - 28, position[1] + 40
+        heuristic_str = f"{state.get_depth()} + {state.get_heuristic()[0]}"
+        self._canvas.create_text(x, y, text = heuristic_str, font = "Times 12")

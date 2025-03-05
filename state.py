@@ -19,6 +19,7 @@ class State():
         self._depth = parent_state._depth + 1 if parent_state else 0
         self._path = []
         self._visited = False
+        self._heuritstic = None
 
     def __eq__(self, other_state : "State") -> bool:
         return np.array_equal(self.values, other_state.values)
@@ -68,6 +69,20 @@ class State():
         new_state._set_path(self._path + [self])
         return new_state
 
+    def set_heuristic_cost(self, goal : "State") -> None:
+        """ Count Manhattan heuristic cost of path from this state to goal state.
+        
+        Args:
+            goal : State
+                a goal state object
+        """
+        cost = 0
+        for number in range(1, 9):
+            real_idx = np.where(self.values == number)
+            goal_idx = np.where(goal.values == number)
+            cost += np.abs(real_idx[0] - goal_idx[0]) + np.abs(real_idx[1] - goal_idx[1])
+        self._heuritstic = cost
+
     def get_depth(self) -> int:
         """Get depth."""
         return self._depth
@@ -92,3 +107,7 @@ class State():
 
     def _get_empty_pos(self) -> tuple:
         return tuple(np.argwhere(self.values == 0)[0])
+
+    def get_heuristic(self) -> int:
+        """ Get hueristic. """
+        return self._heuritstic

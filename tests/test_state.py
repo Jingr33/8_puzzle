@@ -52,3 +52,12 @@ def test_state_get_child_state():
     assert len(children) == 4
     for child in children:
         assert child in child_states
+
+def test_set_heuristic_cost():
+    """ State.set_heuristic_cost test """
+    state = State(np.array([[1, 2, 3], [4, 5, 0], [6, 7, 8]]), None)
+    goal = State(np.array([[1, 2, 3], [8, 0, 4], [7, 6, 5]]), None)
+
+    state.set_heuristic_cost(goal)
+    
+    assert state.get_heuristic() == 9
