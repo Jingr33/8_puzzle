@@ -1,4 +1,7 @@
-"""Sliding number puzzle."""
+"""Sliding number puzzle solver.
+    - Depth first search
+    - A* with Manhattan heuristic
+    """
 
 from typing import Optional
 import numpy as np

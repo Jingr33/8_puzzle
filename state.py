@@ -28,7 +28,7 @@ class State():
         return hash(self.values.tobytes())
 
     def get_child_states(self) -> list["State"]:
-        """ Find all child (next possible) states of current state.
+        """ Find all child (next possible) states of a current state.
         
         Return:
             list[State]: list of child states 

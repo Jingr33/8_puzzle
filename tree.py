@@ -53,7 +53,7 @@ class Tree():
         self._root.mainloop()
 
     def _draw_state(self, canvas : tk.Canvas, state : State, x : int, y : int, goal : State) -> None:
-        """ Draw a matrix of entered state into tree.
+        """ Draw a matrix of an entered state into the tree.
         
         Args:
             canvas : tk.Canvas
@@ -106,7 +106,7 @@ class Tree():
             self._canvas.create_line(p1[0] + 38, p1[1], p2[0] + 38 , p2[1] + 75)
 
     def _get_state_pos(self, max_depth : int, depth : int, state_cnt : int) -> tuple[int]:
-        """ Return top left positons of states of one depth in the tree dictionary.
+        """ Return top left positons of states of specific depth.
         
         Args:
             max_depth : int
@@ -124,7 +124,7 @@ class Tree():
         return (x_positions, y_position)
 
     def _check_and_draw_goal (self, state : State, x : int, y : int, goal : State) -> None:
-        """ Check if this state is goal state, if yes, marks it with a yellow square.
+        """ Check if this state is a goal state, if yes, marks it with a yellow square.
         
         Args:
             state : State
